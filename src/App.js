@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+import logo from './inverted-dice-6.svg';
 import './App.css';
 import {
   Slider,
