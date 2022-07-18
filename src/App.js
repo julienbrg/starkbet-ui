@@ -1,5 +1,12 @@
 import logo from './logo.svg';
 import './App.css';
+import {
+  Slider,
+  SliderTrack,
+  SliderFilledTrack,
+  SliderThumb,
+  SliderMark,
+} from '@chakra-ui/react'
 
 function App() {
   return (
@@ -17,6 +24,12 @@ function App() {
         >
           StarkBet
         </a>
+        <Slider aria-label='slider-ex-2' colorScheme='pink' defaultValue={30}>
+          <SliderTrack>
+            <SliderFilledTrack />
+          </SliderTrack>
+          <SliderThumb />
+        </Slider>
       </header>
     </div>
   );
