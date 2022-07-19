@@ -6,7 +6,10 @@ import {
   SliderFilledTrack,
   SliderThumb,
   Button,
-  Stack
+  Stack, 
+  useToast, 
+  Wrap, 
+  WrapItem
 } from '@chakra-ui/react'
 import { Body, Container, Header, Box, Info } from "./components/index.js";
 import { connect, getStarknet } from "get-starknet"
@@ -20,6 +23,31 @@ function App() {
   const [rollUnder, setRollUnder] = useState(50)
   const [winChance, setWinChance] = useState(50)
   const [payout, setPayout] = useState(1.9)
+
+  function ToastStatusExample() {
+    const toast = useToast()
+    const statuses = ['success', 'error', 'warning', 'info']
+  
+    return (
+      <Wrap>
+        {statuses.map((status, i) => (
+          <WrapItem key={i}>
+            <Button
+              onClick={() =>
+                toast({
+                  title: `${status} toast`,
+                  status: status,
+                  isClosable: true,
+                })
+              }
+            >
+              Show {status} toast
+            </Button>
+          </WrapItem>
+        ))}
+      </Wrap>
+    )
+  }
 
     const readTokenBalance = async (
         token_address = "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7"
@@ -68,7 +96,8 @@ function App() {
 
   async function bet() {
     console.log("bet")
-
+    ToastStatusExample()
+    
     // ... 
   }
 
