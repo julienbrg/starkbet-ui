@@ -50,6 +50,7 @@ function App() {
       if (wallet) {
           await wallet.enable({ showModal: true });
           setIsConnected(!!wallet?.isConnected);
+          readTokenBalance().then(balance => setBal(balance ?? "Error"))
       }
       console.log("isConnected: ", isConnected)
     } catch {}
@@ -57,7 +58,6 @@ function App() {
 
   async function bet() {
     console.log("bet")
-    readTokenBalance().then(balance => setBal(balance ?? "Error"))
     // ... 
   }
 
