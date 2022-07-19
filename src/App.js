@@ -8,7 +8,7 @@ import {
   Button,
   Stack
 } from '@chakra-ui/react'
-import { Body, Container, Header } from "./components/index.js";
+import { Body, Container, Header, Box, Info } from "./components/index.js";
 import { connect, getStarknet } from "get-starknet"
 import { composeUInt256 } from "./utils.ts";
 import { utils } from "ethers";
@@ -17,6 +17,9 @@ function App() {
 
   const [isConnected, setIsConnected] = useState(false);
   const [bal, setBal] = useState(0)
+  const [rollUnder, setRollUnder] = useState(50)
+  const [winChance, setWinChance] = useState(50)
+  const [payout, setPayout] = useState(1.9)
 
     const readTokenBalance = async (
         token_address = "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7"
@@ -56,8 +59,16 @@ function App() {
     } catch {}
   }
 
+  async function update(val) {
+
+    setRollUnder(val)
+    setWinChance(val)
+    setPayout(0.001 * 100 / val) // BETAMOUNT * MAX_CAP / SLIDER_BET
+  }
+
   async function bet() {
     console.log("bet")
+
     // ... 
   }
 
@@ -79,8 +90,23 @@ function App() {
         <h1>
           Balance: {utils.formatEther(bal)} ETH
         </h1>
-        <br /><br /><br />
-        <Slider aria-label='slider-ex-2' colorScheme='pink' defaultValue={30} onChangeEnd={(val) => console.log(val)}>
+        <br />
+        <Info>
+        <Box>
+          <h1>Roll under</h1>
+          <p>{rollUnder}</p>
+        </Box>
+        <Box>
+          <p>Win chance</p>
+          <p>{winChance}%</p>
+        </Box>
+        <Box>
+          <p>Payout</p>
+          <p>{payout}</p>
+        </Box>
+        </Info>
+        <br />
+        <Slider aria-label='slider-ex-2' colorScheme='pink' defaultValue={30} onChangeEnd={(val) => update(val)}>
           <SliderTrack>
             <SliderFilledTrack />
           </SliderTrack>

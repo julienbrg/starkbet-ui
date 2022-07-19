@@ -61,6 +61,23 @@ export const Image = styled.img`
   padding: 24px;
 `;
 
+export const Box = styled.div`
+  border-color: white;
+  border: 2px solid;
+  border-radius: 8px;
+  text-align: center;
+  margin: 10%;
+  min-width: 6em;
+`;
+
+export const Info = styled.div`
+  color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 5% 20%;
+`;
+
 export const Media = styled.img`
   height: 60vmin;
   margin-bottom: 10px;
