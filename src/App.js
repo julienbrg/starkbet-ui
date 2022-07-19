@@ -11,12 +11,40 @@ import {
   Stack, HStack, VStack, Box
 } from '@chakra-ui/react'
 import { Body, Container, Header } from "./components/index.js";
-import { connect } from "get-starknet"
+import { connect, getStarknet } from "get-starknet"
+import { composeUInt256, parseInputAmountToUint256 } from "./utils.ts";
+import BigNumber from "bignumber.js";
+
 
 function App() {
 
   const [isConnected, setIsConnected] = useState(false);
   const [bal, setBal] = useState(0)
+
+  const [balance, setBalance] = useState("");
+
+    const readTokenBalance = async (
+        token_address = "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7"
+    ) => {
+        const wallet = getStarknet();
+        if (!wallet.isConnected) return undefined;
+
+        const address = wallet.account.address;
+        try {
+            const result = await wallet.provider.callContract(
+                {
+                    contractAddress: token_address,
+                    entrypoint: "balanceOf",
+                    calldata: [BigInt(address).toString()],
+                },
+                { blockIdentifier: "pending" }
+            );
+            const balance = composeUInt256(result.result[0], result.result[1]);
+            return balance;
+        } catch {
+            return undefined;
+        }
+    };
 
   async function startSession() {
     console.log("start")
@@ -34,8 +62,7 @@ function App() {
 
   async function bet() {
     console.log("bet")
-    setBal(bal+1)
-    // readTokenBalance().then(balance => setBal(balance ?? "Error"))
+    readTokenBalance().then(balance => setBal(balance ?? "Error"))
     // ... 
   }
 
